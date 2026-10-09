@@ -9,7 +9,7 @@ def test_home_endpoint():
     response = client.get("/")
 
     assert response.status_code == 200
-    assert response.json()["version"] == "1.0.0"
+    assert response.json()["version"] == "1.1.0"
 
 
 def test_prediction_endpoint():
@@ -31,3 +31,12 @@ def test_prediction_endpoint():
     assert result["prediction"] in [0, 1]
     assert result["result"] in ["Survived", "Did not survive"]
     assert 0.0 <= result["survival_probability"] <= 1.0
+
+
+
+def test_health_endpoint():
+    response = client.get("/health")
+
+    assert response.status_code == 200
+    assert response.json()["status"] == "healthy"
+    assert response.json()["model_loaded"] is True

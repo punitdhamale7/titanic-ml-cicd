@@ -19,7 +19,7 @@ model = joblib.load(MODEL_PATH)
 app = FastAPI(
     title="Titanic Survival Prediction API",
     description="ML API for predicting Titanic passenger survival",
-    version="1.0.0"
+    version="1.1.0"
 )
 
 
@@ -39,7 +39,7 @@ class Passenger(BaseModel):
 def home():
     return {
         "message": "Titanic Survival Prediction API is running",
-        "version": "1.0.0"
+        "version": "1.1.0"
     }
 
 
@@ -74,4 +74,12 @@ def predict(passenger: Passenger):
         "prediction": int(prediction),
         "result": result,
         "survival_probability": round(float(probability[1]), 4)
+    }
+
+
+@app.get("/health")
+def health():
+    return {
+        "status": "healthy",
+        "model_loaded": model is not None
     }
